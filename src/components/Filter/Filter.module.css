@@ -1,0 +1,10 @@
+p {
+  margin-bottom: 8px;
+}
+input {
+  padding: 5px;
+  margin-bottom: 8px;
+
+  border: 1px solid rgb(29, 29, 29);
+  border-radius: 10px;
+}

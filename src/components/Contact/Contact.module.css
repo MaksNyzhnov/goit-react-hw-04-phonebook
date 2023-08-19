@@ -1,0 +1,16 @@
+.contacts__list__item__content {
+  display: flex;
+  align-items: center;
+}
+
+.contact_name {
+  margin-left: 5px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+.delete_btn {
+  padding: 5px;
+  margin-left: 15px;
+  border: 1px solid rgb(29, 29, 29);
+  border-radius: 10px;
+}
