@@ -5,78 +5,86 @@ import css from './Form.module.css';
 
 const inputNameId = nanoid(5);
 const inputPhoneId = nanoid(5);
-class Form extends React.Component {
-  state = {
-    currentContact: { name: '', id: '', number: '' },
-    name: '',
-    number: '',
-  };
+const nameInputPattern =
+  "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
+const phoneInputPattern =
+  '+?d{1,4}?[-.s]?(?d{1,3}?)?[-.s]?d{1,4}[-.s]?d{1,4}[-.s]?d{1,9}';
 
-  nameInputPattern =
-    "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
-  phoneInputPattern =
-    '+?d{1,4}?[-.s]?(?d{1,3}?)?[-.s]?d{1,4}[-.s]?d{1,4}[-.s]?d{1,9}';
+const Form = ({ addContact }) => {
+  const [name, setName] = React.useState('');
+  const [number, setNumber] = React.useState('');
+  const [currentContact, setCurrentContact] = React.useState({});
 
-  onFormSubmit = event => {
+  const onFormSubmit = event => {
     event.preventDefault();
-    const { currentContact } = this.state;
 
     currentContact.id = nanoid(5);
 
-    this.props.addContact(currentContact);
+    addContact(currentContact);
 
-    this.formReset();
+    formReset();
   };
 
-  formReset = () => {
-    this.setState({ name: '', number: '' });
+  const formReset = () => {
+    setName('');
+    setNumber('');
   };
 
-  onInputChange = event => {
+  const onInputChange = event => {
     const { name, value } = event.currentTarget;
-
-    this.setState({
-      [name]: value,
-      currentContact: { ...this.state.currentContact, [name]: value },
-    });
+    switch (name) {
+      case 'name':
+        setName(value);
+        setCurrentContact(prevState => ({
+          ...prevState,
+          [name]: value,
+        }));
+        break;
+      case 'number':
+        setNumber(value);
+        setCurrentContact(prevState => ({
+          ...prevState,
+          [name]: value,
+        }));
+        break;
+      default:
+        return;
+    }
   };
 
-  render() {
-    const { name, number } = this.state;
-    return (
-      <form className={css.form} onSubmit={this.onFormSubmit}>
-        <label htmlFor={inputNameId}>Name</label>
-        <input
-          id={inputNameId}
-          className={css.form__input}
-          type="text"
-          name="name"
-          value={name}
-          pattern={this.inputNamePattern}
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          placeholder="Enter name here"
-          required
-          onChange={this.onInputChange}
-        />
-        <label htmlFor={inputPhoneId}>Number</label>
-        <input
-          id={inputPhoneId}
-          className={css.form__input}
-          type="tel"
-          name="number"
-          value={number}
-          pattern={this.phoneInputPattern}
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          placeholder="Enter phone number"
-          required
-          onChange={this.onInputChange}
-        />
-        <button type="submit" className={css.form__button}>
-          Add contact
-        </button>
-      </form>
-    );
-  }
-}
+  return (
+    <form className={css.form} onSubmit={onFormSubmit}>
+      <label htmlFor={inputNameId}>Name</label>
+      <input
+        id={inputNameId}
+        className={css.form__input}
+        type="text"
+        name="name"
+        value={name}
+        pattern={nameInputPattern}
+        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+        placeholder="Enter name here"
+        required
+        onChange={onInputChange}
+      />
+      <label htmlFor={inputPhoneId}>Number</label>
+      <input
+        id={inputPhoneId}
+        className={css.form__input}
+        type="tel"
+        name="number"
+        value={number}
+        pattern={phoneInputPattern}
+        title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+        placeholder="Enter phone number"
+        required
+        onChange={onInputChange}
+      />
+      <button type="submit" className={css.form__button}>
+        Add contact
+      </button>
+    </form>
+  );
+};
 
 export default Form;
