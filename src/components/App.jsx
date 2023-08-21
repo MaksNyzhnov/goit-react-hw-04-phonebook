@@ -9,20 +9,7 @@ const App = () => {
   const [contacts, setContacts] = useLocalStorage('contacts', []);
   const [filter, setFilter] = useState("");
 
-//   useEffect(() => {
-// const contacts = localStorage.getItem('contacts')
-//     if (contacts) {
-//       console.log(contacts)
-//       const parcedContacts = JSON.parse(contacts)
-//       setContacts(parcedContacts)
-//     }
-//   }, [])
 
-//   useEffect(() => {
-   
-//      localStorage.setItem('contacts', JSON.stringify(contacts))
-   
-//   }, [contacts])
   
   const  addContact = contact => {
     if (checkContactRepetition(contact, contacts)) {
@@ -49,7 +36,7 @@ const deleteContact = (id) => {
   }
 
 const onFilterChange = (event) => {
-setFilter({filter: event.currentTarget.value})
+setFilter(event.currentTarget.value)
   }
 
 const showAlert = name => {
